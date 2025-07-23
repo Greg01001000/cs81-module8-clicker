@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Asteroid Clicker</title>
+    </head>
+    <body style="font-family: sans-serif; text-align: center; padding-top: 60px; background-color: rgb(122,17,67); 
+        background-image: url('planet.png'); background-size: cover; background-repeat: no-repeat;">
+
+        <h1 style="color: lightgray;">Asteroid Clicker</h1>
+        <div id="scoreDisplay" style="margin-top: 40px; font-size: 1.5rem; color: lightgray;">Score: 0</div>
+        <div id="output" style="margin-top: 40px; font-size: 2.5rem; color: lightgray;"></div>
+        <div id="buttons"></div>
+        <div id="message" style="margin-top: 10px; font-size: 1.5rem; color: lightgray;"></div>
+        
+        <script>
+            let score = 0;
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const output = document.getElementById('output');
+            const buttonsDiv = document.getElementById('buttons');
+            const message = document.getElementById('message');
+
+            const asteroid = "☄️";
+            const notAsteroids = ["🌕", "🪐", "🌟", "🚀", "🛰️", "🪨", "🌑", "🌍", "🦖", "🦕", "🌲", "🍕", "🐱", "🐶", "🍎", "🍔"];
+
+            function nextRound() {
+                // Clear previous buttons
+                buttonsDiv.innerHTML = "";
+
+                // Randomly decide if this is an asteroid or not
+                const isAsteroid = Math.random() < 0.5;
+                let emoji = isAsteroid ? asteroid : notAsteroids[Math.floor(Math.random() * notAsteroids.length)];
+                output.textContent = emoji;
+
+                // Randomly shift emoji left or right by up to 200px
+                output.style.display = "inline-block";
+                output.style.marginLeft = `${Math.floor(Math.random() * 401) - 200}px`;
+
+                // Create buttons
+                const btnNot = document.createElement('button');
+                btnNot.textContent = "That's not an asteroid.";
+                btnNot.style.fontSize = "1.2rem";
+                btnNot.style.margin = "10px";
+
+                const btnYes = document.createElement('button');
+                btnYes.textContent = "That's an asteroid!";
+                btnYes.style.fontSize = "1.2rem";
+                btnYes.style.margin = "10px";
+
+                // Button event listeners
+                btnNot.onclick = () => {
+                    if (!isAsteroid) {
+                        score++;
+                    } else {
+                        score--;
+                    }
+                    updateScore();
+                    nextRound();
+                };
+
+                btnYes.onclick = () => {
+                    if (isAsteroid) {
+                        score++;
+                    } else {
+                        score--;
+                    }
+                    updateScore();
+                    nextRound();
+                };
+
+                buttonsDiv.appendChild(btnNot);
+                buttonsDiv.appendChild(btnYes);
+            }
+
+            function updateScore() {
+                scoreDisplay.textContent = `Score: ${score}`;
+
+                if (score > 99) {
+                    message.textContent = `I think you've broken the record for asteroid hunting! You can stop.`;
+                } else if (score > 49) {
+                    message.textContent = `You've been promoted to Senior Asteroid Hunter!`;
+                } else if (score > 24) {
+                    message.textContent = `You're now an official asteroid hunter.`;
+                } else if (score > 9) {
+                    message.textContent = `Looks like you're serious about hunting asteroids.`;
+                }
+            }
+
+            // Start the first round
+            nextRound();
+        </script>
+    </body>
+</html>
