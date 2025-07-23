@@ -23,6 +23,15 @@
             button.addEventListener("click", () => {
                 score++;
                 scoreDisplay.textContent = `Score: ${score}`;
+                if (score > 99) {
+                    output.textContent = `I think you've broken the record for asteroid hunting! You can stop.`;
+                } else if (score > 49) {
+                    output.textContent = `You've been promoted to Senior Asteroid Hunter!`;
+                } else if (score > 24) {
+                    output.textContent = `You're now an official asteroid hunter.`;
+                } else if (score > 9) {
+                    output.textContent = `Looks like you're serious about hunting asteroids.`;
+                }
             });
         </script>
     </body>
